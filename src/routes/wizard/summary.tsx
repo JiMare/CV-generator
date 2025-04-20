@@ -1,9 +1,6 @@
+import { SummaryStep } from '@/modules/form/wizard/steps/SummaryStep'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/wizard/summary')({
-  component: RouteComponent,
+  component: SummaryStep,
 })
-
-function RouteComponent() {
-  return <div>Hello "/wizard/summary"!</div>
-}

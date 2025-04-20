@@ -12,11 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as StyleImport } from './routes/style'
-import { Route as WizardRouteImport } from './routes/wizard.route'
+import { Route as WizardRouteImport } from './routes/wizard/route'
 import { Route as IndexImport } from './routes/index'
-import { Route as WizardIndexImport } from './routes/wizard.index'
-import { Route as WizardSummaryImport } from './routes/wizard.summary'
-import { Route as WizardPersonalImport } from './routes/wizard.personal'
+import { Route as WizardSummaryImport } from './routes/wizard/summary'
+import { Route as WizardPersonalImport } from './routes/wizard/personal'
 
 // Create/Update Routes
 
@@ -36,12 +35,6 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
-
-const WizardIndexRoute = WizardIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => WizardRouteRoute,
 } as any)
 
 const WizardSummaryRoute = WizardSummaryImport.update({
@@ -95,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WizardSummaryImport
       parentRoute: typeof WizardRouteImport
     }
-    '/wizard/': {
-      id: '/wizard/'
-      path: '/'
-      fullPath: '/wizard/'
-      preLoaderRoute: typeof WizardIndexImport
-      parentRoute: typeof WizardRouteImport
-    }
   }
 }
 
@@ -110,13 +96,11 @@ declare module '@tanstack/react-router' {
 interface WizardRouteRouteChildren {
   WizardPersonalRoute: typeof WizardPersonalRoute
   WizardSummaryRoute: typeof WizardSummaryRoute
-  WizardIndexRoute: typeof WizardIndexRoute
 }
 
 const WizardRouteRouteChildren: WizardRouteRouteChildren = {
   WizardPersonalRoute: WizardPersonalRoute,
   WizardSummaryRoute: WizardSummaryRoute,
-  WizardIndexRoute: WizardIndexRoute,
 }
 
 const WizardRouteRouteWithChildren = WizardRouteRoute._addFileChildren(
@@ -129,15 +113,14 @@ export interface FileRoutesByFullPath {
   '/style': typeof StyleRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/summary': typeof WizardSummaryRoute
-  '/wizard/': typeof WizardIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/summary': typeof WizardSummaryRoute
-  '/wizard': typeof WizardIndexRoute
 }
 
 export interface FileRoutesById {
@@ -147,20 +130,13 @@ export interface FileRoutesById {
   '/style': typeof StyleRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/summary': typeof WizardSummaryRoute
-  '/wizard/': typeof WizardIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/wizard'
-    | '/style'
-    | '/wizard/personal'
-    | '/wizard/summary'
-    | '/wizard/'
+  fullPaths: '/' | '/wizard' | '/style' | '/wizard/personal' | '/wizard/summary'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/style' | '/wizard/personal' | '/wizard/summary' | '/wizard'
+  to: '/' | '/wizard' | '/style' | '/wizard/personal' | '/wizard/summary'
   id:
     | '__root__'
     | '/'
@@ -168,7 +144,6 @@ export interface FileRouteTypes {
     | '/style'
     | '/wizard/personal'
     | '/wizard/summary'
-    | '/wizard/'
   fileRoutesById: FileRoutesById
 }
 
@@ -203,26 +178,21 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/wizard": {
-      "filePath": "wizard.route.tsx",
+      "filePath": "wizard/route.tsx",
       "children": [
         "/wizard/personal",
-        "/wizard/summary",
-        "/wizard/"
+        "/wizard/summary"
       ]
     },
     "/style": {
       "filePath": "style.tsx"
     },
     "/wizard/personal": {
-      "filePath": "wizard.personal.tsx",
+      "filePath": "wizard/personal.tsx",
       "parent": "/wizard"
     },
     "/wizard/summary": {
-      "filePath": "wizard.summary.tsx",
-      "parent": "/wizard"
-    },
-    "/wizard/": {
-      "filePath": "wizard.index.tsx",
+      "filePath": "wizard/summary.tsx",
       "parent": "/wizard"
     }
   }
