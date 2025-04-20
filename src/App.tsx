@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { Layout } from './components/Layout';
-import { CvForm } from './modules/CvForm';
+import { CvForm } from './modules/form/CvForm';
 import { CvPreview } from './modules/CvPreview';
 
 const App = () => {
