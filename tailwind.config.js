@@ -4,14 +4,10 @@ export default {
   darkMode: ['class'],
   content: ['src/**/*.{ts,tsx}'],
   theme: {
-    container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
-    },
     extend: {
+      screens: {
+        lg: '1048px',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

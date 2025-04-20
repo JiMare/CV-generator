@@ -2,8 +2,8 @@ import { Outlet, Link } from '@tanstack/react-router';
 
 export const WizardTab = () => {
   return (
-    <div className="flex gap-8">
-      <nav className="w-64 border-r pr-4 space-y-2">
+    <div className="flex flex-col md:flex-row gap-8">
+      <nav className="md:w-64 md:border-r md:pr-4 space-y-2">
         <Link to="/wizard/personal" className="block hover:underline">
           Personal Info
         </Link>
