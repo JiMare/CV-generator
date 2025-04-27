@@ -1,7 +1,9 @@
+import { StepNavigator } from '@/components/StepNavigator';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 import { TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
@@ -15,9 +17,8 @@ export const SkillsStep = () => {
     name: 'skills',
   });
 
-  const [skillsHidden] = useWatch({ name: ['skillsHidden'] });
-
-  console.log(skillsHidden, 'Skills hidden');
+  const skillsHidden = useWatch({ name: 'skillsHidden' });
+  const skills = useWatch({ control, name: 'skills' });
 
   const handleAddSkill = () => {
     if (newSkillName.trim() !== '') {
@@ -62,24 +63,35 @@ export const SkillsStep = () => {
         </Button>
       </div>
       <div className="flex flex-col gap-4">
-        {fields.map((field, index) => (
-          <div key={field.id} className="p-6 border rounded-lg flex flex-col gap-4 relative">
-            <button type="button" onClick={() => remove(index)} className="absolute top-4 right-4 text-red-500" disabled={skillsHidden}>
-              <TrashIcon className="h-4 w-4" />
-            </button>
+        {fields.map((field, index) => {
+          const isNameError = skills?.[index]?.name?.trim() === '';
+          return (
+            <div key={field.id} className="p-6 border rounded-lg flex flex-col gap-4 relative">
+              <button type="button" onClick={() => remove(index)} className="absolute top-4 right-4 text-red-500" disabled={skillsHidden}>
+                <TrashIcon className="h-4 w-4" />
+              </button>
 
-            <div>
-              <Label>Name</Label>
-              <Input {...register(`skills.${index}.name`)} placeholder="Enter skill name" disabled={skillsHidden} />
-            </div>
+              <div>
+                <Label>Name</Label>
+                <Input
+                  {...register(`skills.${index}.name`, {
+                    validate: (value) => value.trim() !== '',
+                  })}
+                  placeholder="Enter skill name"
+                  disabled={skillsHidden}
+                  className={cn('border', isNameError && 'border-red-500')}
+                />
+              </div>
 
-            <div>
-              <Label>Details</Label>
-              <Input {...register(`skills.${index}.details`)} placeholder="Enter skill details" disabled={skillsHidden} />
+              <div>
+                <Label>Details</Label>
+                <Input {...register(`skills.${index}.details`)} placeholder="Enter skill details" disabled={skillsHidden} />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+      <StepNavigator toPrev="/wizard/summary" toNext="/wizard/skills" />
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const SummaryStep = () => {
         <Textarea {...register('summary')} />
         <p className="text-sm text-gray-500 mt-2">Briefly describe who you are now and what your future ambitions are.</p>
       </div>
-      <StepNavigator toPrev="/wizard/personal" toNext="/wizard/summary" />
+      <StepNavigator toPrev="/wizard/personal" toNext="/wizard/skills" />
     </div>
   );
 };
