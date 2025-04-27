@@ -1,12 +1,22 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { Layout } from './components/Layout';
 import { CvForm } from './modules/form/CvForm';
-import { CvPreview } from './modules/CvPreview';
+import { CvPreview } from './modules/output/CvPreview';
 
 const App = () => {
   const methods = useForm({
     defaultValues: {
-      name: '',
+      fullName: '',
+      position: '',
+      email: '',
+      phone: '',
+      location: '',
+      linkedin: '',
+      github: '',
+      summary: '',
+      skillsHeading: "Skills",
+      skills: [],
+      skillsHidden: false,
     },
   });
 
