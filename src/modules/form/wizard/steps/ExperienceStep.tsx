@@ -110,9 +110,11 @@ export const ExperienceStep = () => {
             />
           </div>
         )}
-        <Button type="button" onClick={handleAddExperience} disabled={!isAddingAllowed}>
-          + Add Experience
-        </Button>
+        <div className="flex justify-start">
+            <Button type="button" onClick={handleAddExperience} disabled={!isAddingAllowed}>
+                + Add Experience
+            </Button>
+        </div>
       </div>
       <div className="flex flex-col gap-4">
         {fields.map((field, index) => {
