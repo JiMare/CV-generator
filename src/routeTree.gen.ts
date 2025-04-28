@@ -17,6 +17,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as WizardSummaryImport } from './routes/wizard/summary'
 import { Route as WizardSkillsImport } from './routes/wizard/skills'
 import { Route as WizardPersonalImport } from './routes/wizard/personal'
+import { Route as WizardExperienceImport } from './routes/wizard/experience'
 
 // Create/Update Routes
 
@@ -56,6 +57,12 @@ const WizardPersonalRoute = WizardPersonalImport.update({
   getParentRoute: () => WizardRouteRoute,
 } as any)
 
+const WizardExperienceRoute = WizardExperienceImport.update({
+  id: '/experience',
+  path: '/experience',
+  getParentRoute: () => WizardRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -80,6 +87,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/style'
       preLoaderRoute: typeof StyleImport
       parentRoute: typeof rootRoute
+    }
+    '/wizard/experience': {
+      id: '/wizard/experience'
+      path: '/experience'
+      fullPath: '/wizard/experience'
+      preLoaderRoute: typeof WizardExperienceImport
+      parentRoute: typeof WizardRouteImport
     }
     '/wizard/personal': {
       id: '/wizard/personal'
@@ -108,12 +122,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface WizardRouteRouteChildren {
+  WizardExperienceRoute: typeof WizardExperienceRoute
   WizardPersonalRoute: typeof WizardPersonalRoute
   WizardSkillsRoute: typeof WizardSkillsRoute
   WizardSummaryRoute: typeof WizardSummaryRoute
 }
 
 const WizardRouteRouteChildren: WizardRouteRouteChildren = {
+  WizardExperienceRoute: WizardExperienceRoute,
   WizardPersonalRoute: WizardPersonalRoute,
   WizardSkillsRoute: WizardSkillsRoute,
   WizardSummaryRoute: WizardSummaryRoute,
@@ -127,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
+  '/wizard/experience': typeof WizardExperienceRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/skills': typeof WizardSkillsRoute
   '/wizard/summary': typeof WizardSummaryRoute
@@ -136,6 +153,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
+  '/wizard/experience': typeof WizardExperienceRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/skills': typeof WizardSkillsRoute
   '/wizard/summary': typeof WizardSummaryRoute
@@ -146,6 +164,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
+  '/wizard/experience': typeof WizardExperienceRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/skills': typeof WizardSkillsRoute
   '/wizard/summary': typeof WizardSummaryRoute
@@ -157,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/wizard'
     | '/style'
+    | '/wizard/experience'
     | '/wizard/personal'
     | '/wizard/skills'
     | '/wizard/summary'
@@ -165,6 +185,7 @@ export interface FileRouteTypes {
     | '/'
     | '/wizard'
     | '/style'
+    | '/wizard/experience'
     | '/wizard/personal'
     | '/wizard/skills'
     | '/wizard/summary'
@@ -173,6 +194,7 @@ export interface FileRouteTypes {
     | '/'
     | '/wizard'
     | '/style'
+    | '/wizard/experience'
     | '/wizard/personal'
     | '/wizard/skills'
     | '/wizard/summary'
@@ -212,6 +234,7 @@ export const routeTree = rootRoute
     "/wizard": {
       "filePath": "wizard/route.tsx",
       "children": [
+        "/wizard/experience",
         "/wizard/personal",
         "/wizard/skills",
         "/wizard/summary"
@@ -219,6 +242,10 @@ export const routeTree = rootRoute
     },
     "/style": {
       "filePath": "style.tsx"
+    },
+    "/wizard/experience": {
+      "filePath": "wizard/experience.tsx",
+      "parent": "/wizard"
     },
     "/wizard/personal": {
       "filePath": "wizard/personal.tsx",

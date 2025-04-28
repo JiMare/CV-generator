@@ -17,6 +17,9 @@ const App = () => {
       skillsHeading: "Skills",
       skills: [],
       skillsHidden: false,
+      experienceHeading: "Experience",
+      experience: [],
+      experienceHidden: false,
     },
   });
 

@@ -1,4 +1,4 @@
-import { Lightbulb, User } from 'lucide-react';
+import { Briefcase, Lightbulb, User } from 'lucide-react';
 import { FileText } from 'lucide-react';
 
 export type WizardOption = {
@@ -30,5 +30,12 @@ export const wizardOptions = [
     icon: <Lightbulb />,
     draggable: true,
     position: 3,
+  },
+  {
+    label: 'Experience',
+    path: '/wizard/experience',
+    icon: <Briefcase />,
+    draggable: true,
+    position: 4,
   },
 ];
