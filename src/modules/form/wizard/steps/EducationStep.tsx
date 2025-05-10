@@ -42,8 +42,8 @@ export const EducationStep = () => {
             name="educationHidden"
             control={control}
             render={({ field }) => (
-              <Label htmlFor="hide-experience" className="flex items-center gap-2 text-sm">
-                <Checkbox id="hide-experience" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="hide-education" className="flex items-center gap-2 text-sm">
+                <Checkbox id="hide-education" checked={field.value} onCheckedChange={field.onChange} />
                 Hide
               </Label>
             )}
@@ -111,7 +111,7 @@ export const EducationStep = () => {
                       <Label>To</Label>
                       <Controller
                         control={control}
-                        name={`experience.${index}.to`}
+                        name={`education.${index}.to`}
                         rules={{
                           validate: (value) => {
                             const isCurrent = education?.[index]?.isCurrent;
@@ -151,7 +151,7 @@ export const EducationStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/experience" toNext="/wizard/education" />
+      <StepNavigator toPrev="/wizard/experience" toNext="/wizard/projects" />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 export const SummaryStep = () => {
   const { register } = useFormContext();
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 h-full">
       <div>
         <Label>Summary</Label>
         <Textarea {...register('summary')} />

@@ -21,6 +21,13 @@ export type Education = {
   to: string;
 };
 
+export type Project = {
+  name: string;
+  description: string;
+  repoLink: string;
+  demoLink: string;
+};
+
 type FormData = {
   fullName: string;
   position: string;
@@ -39,6 +46,9 @@ type FormData = {
   educationHeading: string;
   education: Education[];
   educationHidden: boolean;
+  projectsHeading: string;
+  projects: Project[];
+  projectsHidden: boolean;
 };
 
 export const FormContext = () => {
@@ -62,6 +72,9 @@ export const FormContext = () => {
       educationHeading: 'Education',
       education: [],
       educationHidden: false,
+      projectsHeading: 'Projects',
+      projects: [],
+      projectsHidden: false,
     },
   });
 
