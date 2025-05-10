@@ -6,6 +6,14 @@ export type Skill = {
   details: string;
 };
 
+export type Experience = {
+  title: string;
+  company: string;
+  from: string;
+  isCurrent: boolean;
+  to: string;
+};
+
 type FormData = {
   fullName: string;
   position: string;
@@ -19,7 +27,7 @@ type FormData = {
   skills: Skill[];
   skillsHidden: boolean;
   experienceHeading: string;
-  experience: { title: string; company: string; date: string; description: string }[];
+  experience: Experience[];
   experienceHidden: boolean;
 };
 
