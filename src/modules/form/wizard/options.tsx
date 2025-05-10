@@ -1,4 +1,4 @@
-import { Briefcase, FolderPlus, GraduationCap, Lightbulb, User } from 'lucide-react';
+import { Briefcase, FolderPlus, GraduationCap, Heart, Languages, Lightbulb, Smile, User } from 'lucide-react';
 import { FileText } from 'lucide-react';
 
 export type WizardOption = {
@@ -51,5 +51,26 @@ export const wizardOptions = [
     icon: <FolderPlus />,
     draggable: true,
     position: 6,
+  },
+  {
+    label: 'Languages',
+    path: '/wizard/languages',
+    icon: <Languages />,
+    draggable: true,
+    position: 7,
+  },
+  {
+    label: 'Soft Skills',
+    path: '/wizard/soft-skills',
+    icon: <Smile />,
+    draggable: true,
+    position: 8,
+  },
+  {
+    label: 'Interests',
+    path: '/wizard/interests',
+    icon: <Heart />,
+    draggable: true,
+    position: 9,
   },
 ];

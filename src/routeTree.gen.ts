@@ -15,9 +15,12 @@ import { Route as StyleImport } from './routes/style'
 import { Route as WizardRouteImport } from './routes/wizard/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as WizardSummaryImport } from './routes/wizard/summary'
+import { Route as WizardSoftSkillsImport } from './routes/wizard/soft-skills'
 import { Route as WizardSkillsImport } from './routes/wizard/skills'
 import { Route as WizardProjectsImport } from './routes/wizard/projects'
 import { Route as WizardPersonalImport } from './routes/wizard/personal'
+import { Route as WizardLanguagesImport } from './routes/wizard/languages'
+import { Route as WizardInterestsImport } from './routes/wizard/interests'
 import { Route as WizardExperienceImport } from './routes/wizard/experience'
 import { Route as WizardEducationImport } from './routes/wizard/education'
 
@@ -47,6 +50,12 @@ const WizardSummaryRoute = WizardSummaryImport.update({
   getParentRoute: () => WizardRouteRoute,
 } as any)
 
+const WizardSoftSkillsRoute = WizardSoftSkillsImport.update({
+  id: '/soft-skills',
+  path: '/soft-skills',
+  getParentRoute: () => WizardRouteRoute,
+} as any)
+
 const WizardSkillsRoute = WizardSkillsImport.update({
   id: '/skills',
   path: '/skills',
@@ -62,6 +71,18 @@ const WizardProjectsRoute = WizardProjectsImport.update({
 const WizardPersonalRoute = WizardPersonalImport.update({
   id: '/personal',
   path: '/personal',
+  getParentRoute: () => WizardRouteRoute,
+} as any)
+
+const WizardLanguagesRoute = WizardLanguagesImport.update({
+  id: '/languages',
+  path: '/languages',
+  getParentRoute: () => WizardRouteRoute,
+} as any)
+
+const WizardInterestsRoute = WizardInterestsImport.update({
+  id: '/interests',
+  path: '/interests',
   getParentRoute: () => WizardRouteRoute,
 } as any)
 
@@ -116,6 +137,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WizardExperienceImport
       parentRoute: typeof WizardRouteImport
     }
+    '/wizard/interests': {
+      id: '/wizard/interests'
+      path: '/interests'
+      fullPath: '/wizard/interests'
+      preLoaderRoute: typeof WizardInterestsImport
+      parentRoute: typeof WizardRouteImport
+    }
+    '/wizard/languages': {
+      id: '/wizard/languages'
+      path: '/languages'
+      fullPath: '/wizard/languages'
+      preLoaderRoute: typeof WizardLanguagesImport
+      parentRoute: typeof WizardRouteImport
+    }
     '/wizard/personal': {
       id: '/wizard/personal'
       path: '/personal'
@@ -137,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WizardSkillsImport
       parentRoute: typeof WizardRouteImport
     }
+    '/wizard/soft-skills': {
+      id: '/wizard/soft-skills'
+      path: '/soft-skills'
+      fullPath: '/wizard/soft-skills'
+      preLoaderRoute: typeof WizardSoftSkillsImport
+      parentRoute: typeof WizardRouteImport
+    }
     '/wizard/summary': {
       id: '/wizard/summary'
       path: '/summary'
@@ -152,18 +194,24 @@ declare module '@tanstack/react-router' {
 interface WizardRouteRouteChildren {
   WizardEducationRoute: typeof WizardEducationRoute
   WizardExperienceRoute: typeof WizardExperienceRoute
+  WizardInterestsRoute: typeof WizardInterestsRoute
+  WizardLanguagesRoute: typeof WizardLanguagesRoute
   WizardPersonalRoute: typeof WizardPersonalRoute
   WizardProjectsRoute: typeof WizardProjectsRoute
   WizardSkillsRoute: typeof WizardSkillsRoute
+  WizardSoftSkillsRoute: typeof WizardSoftSkillsRoute
   WizardSummaryRoute: typeof WizardSummaryRoute
 }
 
 const WizardRouteRouteChildren: WizardRouteRouteChildren = {
   WizardEducationRoute: WizardEducationRoute,
   WizardExperienceRoute: WizardExperienceRoute,
+  WizardInterestsRoute: WizardInterestsRoute,
+  WizardLanguagesRoute: WizardLanguagesRoute,
   WizardPersonalRoute: WizardPersonalRoute,
   WizardProjectsRoute: WizardProjectsRoute,
   WizardSkillsRoute: WizardSkillsRoute,
+  WizardSoftSkillsRoute: WizardSoftSkillsRoute,
   WizardSummaryRoute: WizardSummaryRoute,
 }
 
@@ -177,9 +225,12 @@ export interface FileRoutesByFullPath {
   '/style': typeof StyleRoute
   '/wizard/education': typeof WizardEducationRoute
   '/wizard/experience': typeof WizardExperienceRoute
+  '/wizard/interests': typeof WizardInterestsRoute
+  '/wizard/languages': typeof WizardLanguagesRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/projects': typeof WizardProjectsRoute
   '/wizard/skills': typeof WizardSkillsRoute
+  '/wizard/soft-skills': typeof WizardSoftSkillsRoute
   '/wizard/summary': typeof WizardSummaryRoute
 }
 
@@ -189,9 +240,12 @@ export interface FileRoutesByTo {
   '/style': typeof StyleRoute
   '/wizard/education': typeof WizardEducationRoute
   '/wizard/experience': typeof WizardExperienceRoute
+  '/wizard/interests': typeof WizardInterestsRoute
+  '/wizard/languages': typeof WizardLanguagesRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/projects': typeof WizardProjectsRoute
   '/wizard/skills': typeof WizardSkillsRoute
+  '/wizard/soft-skills': typeof WizardSoftSkillsRoute
   '/wizard/summary': typeof WizardSummaryRoute
 }
 
@@ -202,9 +256,12 @@ export interface FileRoutesById {
   '/style': typeof StyleRoute
   '/wizard/education': typeof WizardEducationRoute
   '/wizard/experience': typeof WizardExperienceRoute
+  '/wizard/interests': typeof WizardInterestsRoute
+  '/wizard/languages': typeof WizardLanguagesRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/projects': typeof WizardProjectsRoute
   '/wizard/skills': typeof WizardSkillsRoute
+  '/wizard/soft-skills': typeof WizardSoftSkillsRoute
   '/wizard/summary': typeof WizardSummaryRoute
 }
 
@@ -216,9 +273,12 @@ export interface FileRouteTypes {
     | '/style'
     | '/wizard/education'
     | '/wizard/experience'
+    | '/wizard/interests'
+    | '/wizard/languages'
     | '/wizard/personal'
     | '/wizard/projects'
     | '/wizard/skills'
+    | '/wizard/soft-skills'
     | '/wizard/summary'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -227,9 +287,12 @@ export interface FileRouteTypes {
     | '/style'
     | '/wizard/education'
     | '/wizard/experience'
+    | '/wizard/interests'
+    | '/wizard/languages'
     | '/wizard/personal'
     | '/wizard/projects'
     | '/wizard/skills'
+    | '/wizard/soft-skills'
     | '/wizard/summary'
   id:
     | '__root__'
@@ -238,9 +301,12 @@ export interface FileRouteTypes {
     | '/style'
     | '/wizard/education'
     | '/wizard/experience'
+    | '/wizard/interests'
+    | '/wizard/languages'
     | '/wizard/personal'
     | '/wizard/projects'
     | '/wizard/skills'
+    | '/wizard/soft-skills'
     | '/wizard/summary'
   fileRoutesById: FileRoutesById
 }
@@ -280,9 +346,12 @@ export const routeTree = rootRoute
       "children": [
         "/wizard/education",
         "/wizard/experience",
+        "/wizard/interests",
+        "/wizard/languages",
         "/wizard/personal",
         "/wizard/projects",
         "/wizard/skills",
+        "/wizard/soft-skills",
         "/wizard/summary"
       ]
     },
@@ -297,6 +366,14 @@ export const routeTree = rootRoute
       "filePath": "wizard/experience.tsx",
       "parent": "/wizard"
     },
+    "/wizard/interests": {
+      "filePath": "wizard/interests.tsx",
+      "parent": "/wizard"
+    },
+    "/wizard/languages": {
+      "filePath": "wizard/languages.tsx",
+      "parent": "/wizard"
+    },
     "/wizard/personal": {
       "filePath": "wizard/personal.tsx",
       "parent": "/wizard"
@@ -307,6 +384,10 @@ export const routeTree = rootRoute
     },
     "/wizard/skills": {
       "filePath": "wizard/skills.tsx",
+      "parent": "/wizard"
+    },
+    "/wizard/soft-skills": {
+      "filePath": "wizard/soft-skills.tsx",
       "parent": "/wizard"
     },
     "/wizard/summary": {

@@ -28,6 +28,21 @@ export type Project = {
   demoLink: string;
 };
 
+export type Language = {
+  name: string;
+  level: string;
+};
+
+export type SoftSkill = {
+  name: string;
+  details: string;
+};
+
+export type Interest = {
+  name: string;
+  details: string;
+};
+
 type FormData = {
   fullName: string;
   position: string;
@@ -49,6 +64,15 @@ type FormData = {
   projectsHeading: string;
   projects: Project[];
   projectsHidden: boolean;
+  languagesHeading: string;
+  languages: Language[];
+  languagesHidden: boolean;
+  softSkillsHeading: string;
+  softSkills: SoftSkill[];
+  softSkillsHidden: boolean;
+  interestsHeading: string;
+  interests: Interest[];
+  interestsHidden: boolean;
 };
 
 export const FormContext = () => {
@@ -75,6 +99,15 @@ export const FormContext = () => {
       projectsHeading: 'Projects',
       projects: [],
       projectsHidden: false,
+      languagesHeading: 'Languages',
+      languages: [],
+      languagesHidden: false,
+      softSkillsHeading: 'Soft Skills',
+      softSkills: [],
+      softSkillsHidden: false,
+      interestsHeading: 'Interests',
+      interests: [],
+      interestsHidden: false,
     },
   });
 

@@ -114,7 +114,7 @@ export const ProjectsStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/education" toNext="/wizard/projects" />
+      <StepNavigator toPrev="/wizard/education" toNext="/wizard/languages" />
     </div>
   );
 };
