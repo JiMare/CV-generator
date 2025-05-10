@@ -1,36 +1,9 @@
-import { FormProvider, useForm } from 'react-hook-form';
-import { Layout } from './components/Layout';
-import { CvForm } from './modules/form/CvForm';
-import { CvPreview } from './modules/output/CvPreview';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { routeTree } from '@/routeTree.gen.ts';
 
 const App = () => {
-  const methods = useForm({
-    defaultValues: {
-      fullName: '',
-      position: '',
-      email: '',
-      phone: '',
-      location: '',
-      linkedin: '',
-      github: '',
-      summary: '',
-      skillsHeading: "Skills",
-      skills: [],
-      skillsHidden: false,
-      experienceHeading: "Experience",
-      experience: [],
-      experienceHidden: false,
-    },
-  });
-
-  return (
-    <FormProvider {...methods}>
-      <Layout>
-        <CvForm />
-        <CvPreview />
-      </Layout>
-    </FormProvider>
-  );
+  const router = createRouter({ routeTree });
+  return <RouterProvider router={router} />;
 };
 
 export default App;
