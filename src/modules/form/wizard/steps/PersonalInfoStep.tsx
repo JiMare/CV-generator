@@ -3,19 +3,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { emailRegex, githubRegex, linkedinRegex } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { useFormContext, useFormState, useWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 export const PersonalInfoStep = () => {
-  const { register, control } = useFormContext();
-
-  const { touchedFields } = useFormState({ control });
-
-  const [fullName, linkedin, github, email] = useWatch({ name: ['fullName', 'linkedin', 'github', 'email'] });
-
-  const isNameError = touchedFields.fullName && fullName.trim() === '';
-  const isEmailError = email !== '' && !emailRegex.test(email);
-  const isLinkedinError = linkedin !== '' && !linkedinRegex.test(linkedin);
-  const isGithubError = github !== '' && !githubRegex.test(github);
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div className="flex flex-col gap-6">
@@ -27,7 +21,7 @@ export const PersonalInfoStep = () => {
             required: true,
             validate: (value) => value.trim() !== '',
           })}
-          className={cn(isNameError && 'border-red-500')}
+          className={cn(Boolean(errors?.fullName) && 'border-red-500')}
         />
       </div>
       <div>
@@ -44,7 +38,7 @@ export const PersonalInfoStep = () => {
               return emailRegex.test(value);
             },
           })}
-          className={cn('border', isEmailError && 'border-red-500')}
+          className={cn('border', Boolean(errors?.email) && 'border-red-500')}
         />
       </div>
       <div>
@@ -65,7 +59,7 @@ export const PersonalInfoStep = () => {
               return linkedinRegex.test(value);
             },
           })}
-          className={cn('border', isLinkedinError && 'border-red-500')}
+          className={cn('border', Boolean(errors?.linkedin) && 'border-red-500')}
         />
       </div>
       <div>
@@ -78,7 +72,7 @@ export const PersonalInfoStep = () => {
               return githubRegex.test(value);
             },
           })}
-          className={cn('border', isGithubError && 'border-red-500')}
+          className={cn('border', Boolean(errors?.github) && 'border-red-500')}
         />
       </div>
       <StepNavigator toNext="/wizard/summary" />

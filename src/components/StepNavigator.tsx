@@ -9,7 +9,7 @@ type Props = {
 
 export const StepNavigator = ({ toNext, toPrev }: Props) => {
   return (
-    <div className="flex mt-4 justify-between w-full">
+    <div className="flex mt-auto justify-between w-full">
       <div>
         {toPrev && (
           <Button asChild className="flex items-center gap-2" variant="secondary">

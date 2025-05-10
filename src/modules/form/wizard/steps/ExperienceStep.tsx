@@ -42,20 +42,20 @@ export const ExperienceStep = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
+      <div className="flex items-baseline justify-between">
         <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">Experience</h2>
-      </div>
-      <div className="flex items-center gap-2">
-        <Controller
-          name="experienceHidden"
-          control={control}
-          render={({ field }) => (
-            <Label htmlFor="hide-experience" className="flex items-center gap-2 text-sm">
-              <Checkbox id="hide-experience" checked={field.value} onCheckedChange={field.onChange} />
-              Hide Experience
-            </Label>
-          )}
-        />
+        <div className="flex items-center gap-2">
+          <Controller
+            name="experienceHidden"
+            control={control}
+            render={({ field }) => (
+              <Label htmlFor="hide-experience" className="flex items-center gap-2 text-sm">
+                <Checkbox id="hide-experience" checked={field.value} onCheckedChange={field.onChange} />
+                Hide
+              </Label>
+            )}
+          />
+        </div>
       </div>
       <div>
         <Label>Heading</Label>
@@ -111,9 +111,9 @@ export const ExperienceStep = () => {
           </div>
         )}
         <div className="flex justify-start">
-            <Button type="button" onClick={handleAddExperience} disabled={!isAddingAllowed}>
-                + Add Experience
-            </Button>
+          <Button type="button" onClick={handleAddExperience} disabled={!isAddingAllowed}>
+            + Add Experience
+          </Button>
         </div>
       </div>
       <div className="flex flex-col gap-4">
