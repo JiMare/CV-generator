@@ -14,6 +14,13 @@ export type Experience = {
   to: string;
 };
 
+export type Education = {
+  institution: string;
+  from: string;
+  isCurrent: boolean;
+  to: string;
+};
+
 type FormData = {
   fullName: string;
   position: string;
@@ -29,6 +36,9 @@ type FormData = {
   experienceHeading: string;
   experience: Experience[];
   experienceHidden: boolean;
+  educationHeading: string;
+  education: Education[];
+  educationHidden: boolean;
 };
 
 export const FormContext = () => {
@@ -49,6 +59,9 @@ export const FormContext = () => {
       experienceHeading: 'Experience',
       experience: [],
       experienceHidden: false,
+      educationHeading: 'Education',
+      education: [],
+      educationHidden: false,
     },
   });
 

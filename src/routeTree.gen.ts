@@ -18,6 +18,7 @@ import { Route as WizardSummaryImport } from './routes/wizard/summary'
 import { Route as WizardSkillsImport } from './routes/wizard/skills'
 import { Route as WizardPersonalImport } from './routes/wizard/personal'
 import { Route as WizardExperienceImport } from './routes/wizard/experience'
+import { Route as WizardEducationImport } from './routes/wizard/education'
 
 // Create/Update Routes
 
@@ -63,6 +64,12 @@ const WizardExperienceRoute = WizardExperienceImport.update({
   getParentRoute: () => WizardRouteRoute,
 } as any)
 
+const WizardEducationRoute = WizardEducationImport.update({
+  id: '/education',
+  path: '/education',
+  getParentRoute: () => WizardRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -87,6 +94,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/style'
       preLoaderRoute: typeof StyleImport
       parentRoute: typeof rootRoute
+    }
+    '/wizard/education': {
+      id: '/wizard/education'
+      path: '/education'
+      fullPath: '/wizard/education'
+      preLoaderRoute: typeof WizardEducationImport
+      parentRoute: typeof WizardRouteImport
     }
     '/wizard/experience': {
       id: '/wizard/experience'
@@ -122,6 +136,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface WizardRouteRouteChildren {
+  WizardEducationRoute: typeof WizardEducationRoute
   WizardExperienceRoute: typeof WizardExperienceRoute
   WizardPersonalRoute: typeof WizardPersonalRoute
   WizardSkillsRoute: typeof WizardSkillsRoute
@@ -129,6 +144,7 @@ interface WizardRouteRouteChildren {
 }
 
 const WizardRouteRouteChildren: WizardRouteRouteChildren = {
+  WizardEducationRoute: WizardEducationRoute,
   WizardExperienceRoute: WizardExperienceRoute,
   WizardPersonalRoute: WizardPersonalRoute,
   WizardSkillsRoute: WizardSkillsRoute,
@@ -143,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
+  '/wizard/education': typeof WizardEducationRoute
   '/wizard/experience': typeof WizardExperienceRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/skills': typeof WizardSkillsRoute
@@ -153,6 +170,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
+  '/wizard/education': typeof WizardEducationRoute
   '/wizard/experience': typeof WizardExperienceRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/skills': typeof WizardSkillsRoute
@@ -164,6 +182,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/wizard': typeof WizardRouteRouteWithChildren
   '/style': typeof StyleRoute
+  '/wizard/education': typeof WizardEducationRoute
   '/wizard/experience': typeof WizardExperienceRoute
   '/wizard/personal': typeof WizardPersonalRoute
   '/wizard/skills': typeof WizardSkillsRoute
@@ -176,6 +195,7 @@ export interface FileRouteTypes {
     | '/'
     | '/wizard'
     | '/style'
+    | '/wizard/education'
     | '/wizard/experience'
     | '/wizard/personal'
     | '/wizard/skills'
@@ -185,6 +205,7 @@ export interface FileRouteTypes {
     | '/'
     | '/wizard'
     | '/style'
+    | '/wizard/education'
     | '/wizard/experience'
     | '/wizard/personal'
     | '/wizard/skills'
@@ -194,6 +215,7 @@ export interface FileRouteTypes {
     | '/'
     | '/wizard'
     | '/style'
+    | '/wizard/education'
     | '/wizard/experience'
     | '/wizard/personal'
     | '/wizard/skills'
@@ -234,6 +256,7 @@ export const routeTree = rootRoute
     "/wizard": {
       "filePath": "wizard/route.tsx",
       "children": [
+        "/wizard/education",
         "/wizard/experience",
         "/wizard/personal",
         "/wizard/skills",
@@ -242,6 +265,10 @@ export const routeTree = rootRoute
     },
     "/style": {
       "filePath": "style.tsx"
+    },
+    "/wizard/education": {
+      "filePath": "wizard/education.tsx",
+      "parent": "/wizard"
     },
     "/wizard/experience": {
       "filePath": "wizard/experience.tsx",

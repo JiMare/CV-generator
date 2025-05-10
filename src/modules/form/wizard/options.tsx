@@ -1,4 +1,4 @@
-import { Briefcase, Lightbulb, User } from 'lucide-react';
+import { Briefcase, GraduationCap, Lightbulb, User } from 'lucide-react';
 import { FileText } from 'lucide-react';
 
 export type WizardOption = {
@@ -37,5 +37,12 @@ export const wizardOptions = [
     icon: <Briefcase />,
     draggable: true,
     position: 4,
+  },
+  {
+    label: 'Education',
+    path: '/wizard/education',
+    icon: <GraduationCap />,
+    draggable: true,
+    position: 5,
   },
 ];

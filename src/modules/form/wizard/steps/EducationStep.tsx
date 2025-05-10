@@ -7,9 +7,9 @@ import { YearMonthPicker } from '@/components/YearMonthPicker';
 import { cn, isValidRangeDate } from '@/lib/utils';
 import { TrashIcon } from 'lucide-react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
-import { Experience } from '../../FormContext';
+import { Education } from '../../FormContext';
 
-export const ExperienceStep = () => {
+export const EducationStep = () => {
   const {
     register,
     control,
@@ -18,28 +18,28 @@ export const ExperienceStep = () => {
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'experience',
+    name: 'education',
   });
 
-  const experienceHidden = useWatch({ name: 'experienceHidden' });
-  const experience = useWatch({ control, name: 'experience' });
+  const educationHidden = useWatch({ name: 'educationHidden' });
+  const education = useWatch({ control, name: 'education' });
 
-  const handleAddExperience = () => {
-    append({ title: '', company: '', from: '', isCurrent: false, to: '' });
+  const handleAddEducation = () => {
+    append({ institution: '', from: '', isCurrent: false, to: '' });
   };
 
-  const isExperienceValid = experience.every((exp: Experience) => {
-    const { title, from, to, isCurrent } = exp;
-    return title.trim() !== '' && from && (isCurrent || (to && isValidRangeDate(from, to)));
+  const isEducationValid = education.every((educ: Education) => {
+    const { institution, from, to, isCurrent } = educ;
+    return institution.trim() !== '' && from && (isCurrent || (to && isValidRangeDate(from, to)));
   });
 
   return (
     <div className="flex flex-col gap-6 h-full">
       <div className="flex items-baseline justify-between">
-        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">Experience</h2>
+        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">Education</h2>
         <div className="flex items-center gap-2">
           <Controller
-            name="experienceHidden"
+            name="educationHidden"
             control={control}
             render={({ field }) => (
               <Label htmlFor="hide-experience" className="flex items-center gap-2 text-sm">
@@ -50,13 +50,12 @@ export const ExperienceStep = () => {
           />
         </div>
       </div>
-      {!experienceHidden && (
+      {!educationHidden && (
         <>
           <div>
             <Label>Heading</Label>
-            <Input type="text" {...register('experienceHeading')} />
+            <Input type="text" {...register('educationHeading')} />
           </div>
-
           <div className="flex flex-col gap-4">
             {fields.map((field, index) => {
               return (
@@ -66,26 +65,21 @@ export const ExperienceStep = () => {
                   </button>
 
                   <div>
-                    <Label>Job Title</Label>
+                    <Label>Institution</Label>
                     <Input
-                      {...register(`experience.${index}.title`, {
+                      {...register(`education.${index}.institution`, {
                         validate: (value) => value.trim() !== '',
                       })}
-                      placeholder="Software Developer"
-                      className={cn('border', Boolean((errors?.experience as any)?.[index]?.title) && 'border-red-500')}
+                      placeholder="University of Acme"
+                      className={cn('border', Boolean((errors?.education as any)?.[index]?.institution) && 'border-red-500')}
                     />
-                  </div>
-
-                  <div>
-                    <Label>Company</Label>
-                    <Input {...register(`experience.${index}.company`)} placeholder="Acme" />
                   </div>
 
                   <div>
                     <Label>From</Label>
                     <Controller
                       control={control}
-                      name={`experience.${index}.from`}
+                      name={`education.${index}.from`}
                       rules={{ required: true }}
                       render={({ field }) => (
                         <YearMonthPicker
@@ -93,7 +87,7 @@ export const ExperienceStep = () => {
                           label="Start date"
                           onChange={(date) => {
                             field.onChange(date);
-                            trigger(`experience.${index}.from`);
+                            trigger(`education.${index}.from`);
                           }}
                         />
                       )}
@@ -102,17 +96,17 @@ export const ExperienceStep = () => {
 
                   <div className="flex items-center gap-2">
                     <Controller
-                      name={`experience.${index}.isCurrent`}
+                      name={`education.${index}.isCurrent`}
                       control={control}
                       render={({ field }) => (
                         <Label htmlFor={`is-current-${index}`} className="flex items-center gap-2 text-sm">
                           <Checkbox id={`is-current-${index}`} checked={field.value} onCheckedChange={field.onChange} />I am currently
-                          working in this role
+                          attending this institution
                         </Label>
                       )}
                     />
                   </div>
-                  {!experience?.[index]?.isCurrent && (
+                  {!education?.[index]?.isCurrent && (
                     <div>
                       <Label>To</Label>
                       <Controller
@@ -120,8 +114,8 @@ export const ExperienceStep = () => {
                         name={`experience.${index}.to`}
                         rules={{
                           validate: (value) => {
-                            const isCurrent = experience?.[index]?.isCurrent;
-                            const fromDate = experience?.[index]?.from;
+                            const isCurrent = education?.[index]?.isCurrent;
+                            const fromDate = education?.[index]?.from;
                             if ((!isCurrent && !value) || (fromDate && value && !isValidRangeDate(fromDate, value))) {
                               return false;
                             }
@@ -129,13 +123,15 @@ export const ExperienceStep = () => {
                           },
                         }}
                         render={({ field }) => {
-                          const isError = experience?.[index]?.isCurrent === false && !field.value;
-                          const isValidRange = experience?.[index]?.from && isValidRangeDate(experience?.[index]?.from, field.value);
+                          const isError = education?.[index]?.isCurrent === false && !field.value;
+                          const isValidRange = education?.[index]?.from && isValidRangeDate(education?.[index]?.from, field.value);
                           return (
                             <div>
                               <YearMonthPicker value={field.value} label="End date" onChange={field.onChange} />
-                              {isError && <p className="text-red-500 text-sm">End date is required if not currently working</p>}
-                              {experience?.[index]?.from && !isValidRange && (
+                              {isError && (
+                                <p className="text-red-500 text-sm">End date is required if not currently attending this institution</p>
+                              )}
+                              {education?.[index]?.from && !isValidRange && (
                                 <p className="text-red-500 text-sm">End date must be after start date</p>
                               )}
                             </div>
@@ -149,13 +145,13 @@ export const ExperienceStep = () => {
             })}
           </div>
           <div className="flex justify-end">
-            <Button type="button" onClick={handleAddExperience} disabled={!isExperienceValid}>
-              + Add Experience
+            <Button type="button" onClick={handleAddEducation} disabled={!isEducationValid}>
+              + Add Education
             </Button>
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/skills" toNext="/wizard/education" />
+      <StepNavigator toPrev="/wizard/experience" toNext="/wizard/education" />
     </div>
   );
 };

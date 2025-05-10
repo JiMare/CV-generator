@@ -80,7 +80,7 @@ export const SkillsStep = () => {
               );
             })}
           </div>
-          <div className="flex gap-2 justify-end">
+          <div className="flex justify-end">
             <Button type="button" onClick={handleAddSkill} disabled={!isSkillsValid}>
               + Add Skill
             </Button>
