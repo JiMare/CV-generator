@@ -1,15 +1,33 @@
 import { StepNavigator } from '@/components/StepNavigator';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { TrashIcon } from 'lucide-react';
+import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { Interest } from '../../FormContext';
 
 export const InterestsStep = () => {
   const {
     register,
     control,
     formState: { errors },
-    trigger,
   } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'interests',
+  });
+
+  const interestsHidden = useWatch({ name: 'interestsHidden' });
+  const interests = useWatch({ control, name: 'interests' });
+
+  const handleAddInterest = () => {
+    append({ name: '', details: '' });
+  };
+
+  const isInterestsValid = interests.every((interest: Interest) => interest.name.trim() !== '');
   return (
     <div className="flex flex-col gap-6 h-full">
       <div className="flex items-baseline justify-between">
@@ -27,6 +45,45 @@ export const InterestsStep = () => {
           />
         </div>
       </div>
+      {!interestsHidden && (
+        <>
+          <div>
+            <Label>Heading</Label>
+            <Input type="text" {...register('interestsHeading')} />
+          </div>
+          <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id} className="p-6 border rounded-lg flex flex-col gap-4 relative">
+                  <button type="button" onClick={() => remove(index)} className="absolute top-4 right-4 text-red-500">
+                    <TrashIcon className="h-4 w-4" />
+                  </button>
+                  <div>
+                    <Label>Name</Label>
+                    <Input
+                      {...register(`interests.${index}.name`, {
+                        validate: (value) => value.trim() !== '',
+                      })}
+                      placeholder="Enter hobby name"
+                      className={cn('border', Boolean((errors?.interests as any)?.[index]?.name) && 'border-red-500')}
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Details</Label>
+                    <Textarea {...register(`interests.${index}.details`)} placeholder="Enter hobby details" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex justify-end">
+            <Button type="button" onClick={handleAddInterest} disabled={!isInterestsValid}>
+              + Add Hobby
+            </Button>
+          </div>
+        </>
+      )}
       <StepNavigator toPrev="/wizard/soft-skills" />
     </div>
   );
