@@ -6,9 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { urlRegex } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { TrashIcon } from 'lucide-react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Project } from '../../FormContext';
+import { StepFieldCard } from '@/components/StepFieldCard';
 
 export const ProjectsStep = () => {
   const {
@@ -59,10 +59,7 @@ export const ProjectsStep = () => {
           <div className="flex flex-col gap-4">
             {fields.map((field, index) => {
               return (
-                <div key={field.id} className="p-6 border rounded-lg flex flex-col gap-4 relative">
-                  <button type="button" onClick={() => remove(index)} className="absolute top-4 right-4 text-red-500">
-                    <TrashIcon className="h-4 w-4" />
-                  </button>
+                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
                   <div>
                     <Label>Project Name</Label>
                     <Input
@@ -103,7 +100,7 @@ export const ProjectsStep = () => {
                       className={cn('border', Boolean((errors?.projects as any)?.[index]?.demoLink) && 'border-red-500')}
                     />
                   </div>
-                </div>
+                </StepFieldCard>
               );
             })}
           </div>

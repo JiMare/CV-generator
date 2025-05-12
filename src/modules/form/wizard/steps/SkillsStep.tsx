@@ -4,9 +4,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { TrashIcon } from 'lucide-react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Skill } from '../../FormContext';
+import { StepFieldCard } from '@/components/StepFieldCard';
 
 export const SkillsStep = () => {
   const {
@@ -56,11 +56,7 @@ export const SkillsStep = () => {
           <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
             {fields.map((field, index) => {
               return (
-                <div key={field.id} className="p-6 border rounded-lg flex flex-col gap-4 relative">
-                  <button type="button" onClick={() => remove(index)} className="absolute top-4 right-4 text-red-500">
-                    <TrashIcon className="h-4 w-4" />
-                  </button>
-
+                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
                   <div>
                     <Label>Name</Label>
                     <Input
@@ -76,7 +72,7 @@ export const SkillsStep = () => {
                     <Label>Details</Label>
                     <Input {...register(`skills.${index}.details`)} placeholder="Enter skill details" />
                   </div>
-                </div>
+                </StepFieldCard>
               );
             })}
           </div>

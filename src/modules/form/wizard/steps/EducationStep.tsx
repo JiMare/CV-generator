@@ -5,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { YearMonthPicker } from '@/components/YearMonthPicker';
 import { cn, isValidRangeDate } from '@/lib/utils';
-import { TrashIcon } from 'lucide-react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Education } from '../../FormContext';
+import { StepFieldCard } from '@/components/StepFieldCard';
 
 export const EducationStep = () => {
   const {
@@ -59,11 +59,7 @@ export const EducationStep = () => {
           <div className="flex flex-col gap-4">
             {fields.map((field, index) => {
               return (
-                <div key={field.id} className="p-6 border rounded-lg flex flex-col gap-4 relative">
-                  <button type="button" onClick={() => remove(index)} className="absolute top-4 right-4 text-red-500">
-                    <TrashIcon className="h-4 w-4" />
-                  </button>
-
+                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
                   <div>
                     <Label>Institution</Label>
                     <Input
@@ -140,7 +136,7 @@ export const EducationStep = () => {
                       />
                     </div>
                   )}
-                </div>
+                </StepFieldCard>
               );
             })}
           </div>

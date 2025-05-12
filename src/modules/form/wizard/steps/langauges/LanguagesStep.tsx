@@ -1,87 +1,89 @@
+import { StepFieldCard } from '@/components/StepFieldCard';
 import { StepNavigator } from '@/components/StepNavigator';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
-import { SoftSkill } from '../../FormContext';
-import { StepFieldCard } from '@/components/StepFieldCard';
+import { LanguageProficiency } from './LanguageProficiency';
 
-export const SoftSkillsStep = () => {
+export const LanguagesStep = () => {
   const {
     register,
     control,
     formState: { errors },
+    trigger,
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'softSkills',
+    name: 'languages',
   });
 
-  const softSkillsHidden = useWatch({ name: 'softSkillsHidden' });
-  const softSkills = useWatch({ control, name: 'softSkills' });
+  const languagesHidden = useWatch({ name: 'languagesHidden' });
+  const languages = useWatch({ control, name: 'languages' });
 
-  const handleAddSoftSkill = () => {
+  const handleAddLanguage = () => {
     append({ name: '', details: '' });
   };
 
-  const isSoftSkillsValid = softSkills.every((skill: SoftSkill) => skill.name.trim() !== '');
   return (
     <div className="flex flex-col gap-6 h-full">
       <div className="flex items-baseline justify-between">
-        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">Soft Skills</h2>
+        <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">Languages</h2>
         <div className="flex items-center gap-2">
           <Controller
-            name="softSkillsHidden"
+            name="languagesHidden"
             control={control}
             render={({ field }) => (
-              <Label htmlFor="hide-softSkills" className="flex items-center gap-2 text-sm">
-                <Checkbox id="hide-softSkills" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="hide-languages" className="flex items-center gap-2 text-sm">
+                <Checkbox id="hide-languages" checked={field.value} onCheckedChange={field.onChange} />
                 Hide
               </Label>
             )}
           />
         </div>
       </div>
-      {!softSkillsHidden && (
+      {!languagesHidden && (
         <>
           <div>
             <Label>Heading</Label>
-            <Input type="text" {...register('softSkillsHeading')} />
+            <Input type="text" {...register('languagesHeading')} />
           </div>
           <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
             {fields.map((field, index) => {
               return (
                 <StepFieldCard onRemove={() => remove(index)} key={field.id}>
                   <div>
-                    <Label>Name</Label>
+                    <Label>Language name</Label>
                     <Input
-                      {...register(`softSkills.${index}.name`, {
+                      {...register(`languages.${index}.name`, {
                         validate: (value) => value.trim() !== '',
                       })}
-                      placeholder="Enter soft skill name"
-                      className={cn('border', Boolean((errors?.softSkills as any)?.[index]?.name) && 'border-red-500')}
+                      placeholder="Enter language name"
+                      className={cn('border', Boolean((errors?.languages as any)?.[index]?.name) && 'border-red-500')}
                     />
                   </div>
-
                   <div>
-                    <Label>Details</Label>
-                    <Textarea {...register(`softSkills.${index}.details`)} placeholder="Enter soft skill details" />
+                    <Label>Proficiency</Label>
+                    <Controller
+                      control={control}
+                      name={`languages.${index}.level`}
+                      render={({ field }) => <LanguageProficiency field={field} />}
+                    />
                   </div>
                 </StepFieldCard>
               );
             })}
           </div>
           <div className="flex justify-end">
-            <Button type="button" onClick={handleAddSoftSkill} disabled={!isSoftSkillsValid}>
-              + Add Soft skill
+            <Button type="button" onClick={handleAddLanguage}>
+              + Add Language
             </Button>
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/languages" toNext="/wizard/interests" />
+      <StepNavigator toPrev="/wizard/projects" toNext="/wizard/soft-skills" />
     </div>
   );
 };
