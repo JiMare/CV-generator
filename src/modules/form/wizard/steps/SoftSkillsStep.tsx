@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { SoftSkill } from '../../FormContext';
-import { StepFieldCard } from '@/components/StepFieldCard';
+import { DragDropStepWrapper } from '../../DragDropStepWrapper';
+import React from 'react';
 
 export const SoftSkillsStep = () => {
   const {
@@ -15,7 +16,7 @@ export const SoftSkillsStep = () => {
     control,
     formState: { errors },
   } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: 'softSkills',
   });
@@ -51,29 +52,31 @@ export const SoftSkillsStep = () => {
             <Label>Heading</Label>
             <Input type="text" {...register('softSkillsHeading')} />
           </div>
-          <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
-            {fields.map((field, index) => {
-              return (
-                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
-                  <div>
-                    <Label>Name</Label>
-                    <Input
-                      {...register(`softSkills.${index}.name`, {
-                        validate: (value) => value.trim() !== '',
-                      })}
-                      placeholder="Enter soft skill name"
-                      className={cn('border', Boolean((errors?.softSkills as any)?.[index]?.name) && 'border-red-500')}
-                    />
-                  </div>
+          <DragDropStepWrapper
+            droppableId="softSkills"
+            fields={fields}
+            move={move}
+            onRemove={remove}
+            renderItem={(field, index) => (
+              <React.Fragment key={field.id}>
+                <div>
+                  <Label>Name</Label>
+                  <Input
+                    {...register(`softSkills.${index}.name`, {
+                      validate: (value) => value.trim() !== '',
+                    })}
+                    placeholder="Enter soft skill name"
+                    className={cn('border', Boolean((errors?.softSkills as any)?.[index]?.name) && 'border-red-500')}
+                  />
+                </div>
 
-                  <div>
-                    <Label>Details</Label>
-                    <Textarea {...register(`softSkills.${index}.details`)} placeholder="Enter soft skill details" />
-                  </div>
-                </StepFieldCard>
-              );
-            })}
-          </div>
+                <div>
+                  <Label>Details</Label>
+                  <Textarea {...register(`softSkills.${index}.details`)} placeholder="Enter soft skill details" />
+                </div>
+              </React.Fragment>
+            )}
+          />
           <div className="flex justify-end">
             <Button type="button" onClick={handleAddSoftSkill} disabled={!isSoftSkillsValid}>
               + Add Soft skill

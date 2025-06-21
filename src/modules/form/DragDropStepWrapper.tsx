@@ -33,7 +33,7 @@ export const DragDropStepWrapper = <T extends FieldType>({ fields, move, droppab
                         key={field.id}
                         dragElement={
                           <div className="absolute top-2 left-2 cursor-move" {...provided.dragHandleProps}>
-                            <GripVertical className="cursor-grab text-muted-foreground" />
+                            <GripVertical className="h-5 w-5 cursor-grab text-muted-foreground" />
                           </div>
                         }
                       >

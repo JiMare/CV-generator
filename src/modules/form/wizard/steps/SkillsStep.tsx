@@ -6,7 +6,8 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Skill } from '../../FormContext';
-import { StepFieldCard } from '@/components/StepFieldCard';
+import { DragDropStepWrapper } from '../../DragDropStepWrapper';
+import React from 'react';
 
 export const SkillsStep = () => {
   const {
@@ -14,7 +15,7 @@ export const SkillsStep = () => {
     control,
     formState: { errors },
   } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: 'skills',
   });
@@ -53,29 +54,31 @@ export const SkillsStep = () => {
             <Label>Heading</Label>
             <Input type="text" {...register('skillsHeading')} />
           </div>
-          <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
-            {fields.map((field, index) => {
-              return (
-                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
-                  <div>
-                    <Label>Name</Label>
-                    <Input
-                      {...register(`skills.${index}.name`, {
-                        validate: (value) => value.trim() !== '',
-                      })}
-                      placeholder="Enter skill name"
-                      className={cn('border', Boolean((errors?.skills as any)?.[index]?.name) && 'border-red-500')}
-                    />
-                  </div>
+          <DragDropStepWrapper
+            droppableId="skills"
+            fields={fields}
+            move={move}
+            onRemove={remove}
+            renderItem={(field, index) => (
+              <React.Fragment key={field.id}>
+                <div>
+                  <Label>Name</Label>
+                  <Input
+                    {...register(`skills.${index}.name`, {
+                      validate: (value) => value.trim() !== '',
+                    })}
+                    placeholder="Enter skill name"
+                    className={cn('border', Boolean((errors?.skills as any)?.[index]?.name) && 'border-red-500')}
+                  />
+                </div>
 
-                  <div>
-                    <Label>Details</Label>
-                    <Input {...register(`skills.${index}.details`)} placeholder="Enter skill details" />
-                  </div>
-                </StepFieldCard>
-              );
-            })}
-          </div>
+                <div>
+                  <Label>Details</Label>
+                  <Input {...register(`skills.${index}.details`)} placeholder="Enter skill details" />
+                </div>
+              </React.Fragment>
+            )}
+          />
           <div className="flex justify-end">
             <Button type="button" onClick={handleAddSkill} disabled={!isSkillsValid}>
               + Add Skill

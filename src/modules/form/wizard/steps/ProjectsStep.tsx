@@ -8,7 +8,8 @@ import { urlRegex } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Project } from '../../FormContext';
-import { StepFieldCard } from '@/components/StepFieldCard';
+import { DragDropStepWrapper } from '../../DragDropStepWrapper';
+import React from 'react';
 
 export const ProjectsStep = () => {
   const {
@@ -16,7 +17,7 @@ export const ProjectsStep = () => {
     control,
     formState: { errors },
   } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: 'projects',
   });
@@ -56,54 +57,56 @@ export const ProjectsStep = () => {
             <Label>Heading</Label>
             <Input type="text" {...register('projectsHeading')} />
           </div>
-          <div className="flex flex-col gap-4">
-            {fields.map((field, index) => {
-              return (
-                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
-                  <div>
-                    <Label>Project Name</Label>
-                    <Input
-                      {...register(`projects.${index}.name`, {
-                        validate: (value) => value.trim() !== '',
-                      })}
-                      placeholder="My Awesome Project"
-                      className={cn('border', Boolean((errors?.projects as any)?.[index]?.name) && 'border-red-500')}
-                    />
-                  </div>
-                  <div>
-                    <Label>Description</Label>
-                    <Textarea {...register(`projects.${index}.description`)} />
-                  </div>
-                  <div>
-                    <Label>Repository Link</Label>
-                    <Input
-                      type="text"
-                      {...register(`projects.${index}.repoLink`, {
-                        validate: (value) => {
-                          if (value === '') return true;
-                          return urlRegex.test(value);
-                        },
-                      })}
-                      className={cn('border', Boolean((errors?.projects as any)?.[index]?.repoLink) && 'border-red-500')}
-                    />
-                  </div>
-                  <div>
-                    <Label>Demo Link</Label>
-                    <Input
-                      type="text"
-                      {...register(`projects.${index}.demoLink`, {
-                        validate: (value) => {
-                          if (value === '') return true;
-                          return urlRegex.test(value);
-                        },
-                      })}
-                      className={cn('border', Boolean((errors?.projects as any)?.[index]?.demoLink) && 'border-red-500')}
-                    />
-                  </div>
-                </StepFieldCard>
-              );
-            })}
-          </div>
+          <DragDropStepWrapper
+            droppableId="projects"
+            fields={fields}
+            move={move}
+            onRemove={remove}
+            renderItem={(field, index) => (
+              <React.Fragment key={field.id}>
+                <div>
+                  <Label>Project Name</Label>
+                  <Input
+                    {...register(`projects.${index}.name`, {
+                      validate: (value) => value.trim() !== '',
+                    })}
+                    placeholder="My Awesome Project"
+                    className={cn('border', Boolean((errors?.projects as any)?.[index]?.name) && 'border-red-500')}
+                  />
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea {...register(`projects.${index}.description`)} />
+                </div>
+                <div>
+                  <Label>Repository Link</Label>
+                  <Input
+                    type="text"
+                    {...register(`projects.${index}.repoLink`, {
+                      validate: (value) => {
+                        if (value === '') return true;
+                        return urlRegex.test(value);
+                      },
+                    })}
+                    className={cn('border', Boolean((errors?.projects as any)?.[index]?.repoLink) && 'border-red-500')}
+                  />
+                </div>
+                <div>
+                  <Label>Demo Link</Label>
+                  <Input
+                    type="text"
+                    {...register(`projects.${index}.demoLink`, {
+                      validate: (value) => {
+                        if (value === '') return true;
+                        return urlRegex.test(value);
+                      },
+                    })}
+                    className={cn('border', Boolean((errors?.projects as any)?.[index]?.demoLink) && 'border-red-500')}
+                  />
+                </div>
+              </React.Fragment>
+            )}
+          />
           <div className="flex justify-end">
             <Button type="button" onClick={handleAddProject} disabled={!isProjectsValid}>
               + Add Project

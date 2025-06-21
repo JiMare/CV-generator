@@ -7,7 +7,8 @@ import { YearMonthPicker } from '@/components/YearMonthPicker';
 import { cn, isValidRangeDate } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Education } from '../../FormContext';
-import { StepFieldCard } from '@/components/StepFieldCard';
+import { DragDropStepWrapper } from '../../DragDropStepWrapper';
+import React from 'react';
 
 export const EducationStep = () => {
   const {
@@ -16,7 +17,7 @@ export const EducationStep = () => {
     formState: { errors },
     trigger,
   } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: 'education',
   });
@@ -56,90 +57,92 @@ export const EducationStep = () => {
             <Label>Heading</Label>
             <Input type="text" {...register('educationHeading')} />
           </div>
-          <div className="flex flex-col gap-4">
-            {fields.map((field, index) => {
-              return (
-                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
-                  <div>
-                    <Label>Institution</Label>
-                    <Input
-                      {...register(`education.${index}.institution`, {
-                        validate: (value) => value.trim() !== '',
-                      })}
-                      placeholder="University of Acme"
-                      className={cn('border', Boolean((errors?.education as any)?.[index]?.institution) && 'border-red-500')}
-                    />
-                  </div>
+          <DragDropStepWrapper
+            droppableId="education"
+            fields={fields}
+            move={move}
+            onRemove={remove}
+            renderItem={(field, index) => (
+              <React.Fragment key={field.id}>
+                <div>
+                  <Label>Institution</Label>
+                  <Input
+                    {...register(`education.${index}.institution`, {
+                      validate: (value) => value.trim() !== '',
+                    })}
+                    placeholder="University of Acme"
+                    className={cn('border', Boolean((errors?.education as any)?.[index]?.institution) && 'border-red-500')}
+                  />
+                </div>
 
-                  <div>
-                    <Label>From</Label>
-                    <Controller
-                      control={control}
-                      name={`education.${index}.from`}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <YearMonthPicker
-                          value={field.value}
-                          label="Start date"
-                          onChange={(date) => {
-                            field.onChange(date);
-                            trigger(`education.${index}.from`);
-                          }}
-                        />
-                      )}
-                    />
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Controller
-                      name={`education.${index}.isCurrent`}
-                      control={control}
-                      render={({ field }) => (
-                        <Label htmlFor={`is-current-${index}`} className="flex items-center gap-2 text-sm">
-                          <Checkbox id={`is-current-${index}`} checked={field.value} onCheckedChange={field.onChange} />I am currently
-                          attending this institution
-                        </Label>
-                      )}
-                    />
-                  </div>
-                  {!education?.[index]?.isCurrent && (
-                    <div>
-                      <Label>To</Label>
-                      <Controller
-                        control={control}
-                        name={`education.${index}.to`}
-                        rules={{
-                          validate: (value) => {
-                            const isCurrent = education?.[index]?.isCurrent;
-                            const fromDate = education?.[index]?.from;
-                            if ((!isCurrent && !value) || (fromDate && value && !isValidRangeDate(fromDate, value))) {
-                              return false;
-                            }
-                            return true;
-                          },
-                        }}
-                        render={({ field }) => {
-                          const isError = education?.[index]?.isCurrent === false && !field.value;
-                          const isValidRange = education?.[index]?.from && isValidRangeDate(education?.[index]?.from, field.value);
-                          return (
-                            <div>
-                              <YearMonthPicker value={field.value} label="End date" onChange={field.onChange} />
-                              {isError && (
-                                <p className="text-red-500 text-sm">End date is required if not currently attending this institution</p>
-                              )}
-                              {education?.[index]?.from && !isValidRange && (
-                                <p className="text-red-500 text-sm">End date must be after start date</p>
-                              )}
-                            </div>
-                          );
+                <div>
+                  <Label>From</Label>
+                  <Controller
+                    control={control}
+                    name={`education.${index}.from`}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <YearMonthPicker
+                        value={field.value}
+                        label="Start date"
+                        onChange={(date) => {
+                          field.onChange(date);
+                          trigger(`education.${index}.from`);
                         }}
                       />
-                    </div>
-                  )}
-                </StepFieldCard>
-              );
-            })}
-          </div>
+                    )}
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Controller
+                    name={`education.${index}.isCurrent`}
+                    control={control}
+                    render={({ field }) => (
+                      <Label htmlFor={`is-current-${index}`} className="flex items-center gap-2 text-sm">
+                        <Checkbox id={`is-current-${index}`} checked={field.value} onCheckedChange={field.onChange} />I am currently
+                        attending this institution
+                      </Label>
+                    )}
+                  />
+                </div>
+                {!education?.[index]?.isCurrent && (
+                  <div>
+                    <Label>To</Label>
+                    <Controller
+                      control={control}
+                      name={`education.${index}.to`}
+                      rules={{
+                        validate: (value) => {
+                          const isCurrent = education?.[index]?.isCurrent;
+                          const fromDate = education?.[index]?.from;
+                          if ((!isCurrent && !value) || (fromDate && value && !isValidRangeDate(fromDate, value))) {
+                            return false;
+                          }
+                          return true;
+                        },
+                      }}
+                      render={({ field }) => {
+                        const isError = education?.[index]?.isCurrent === false && !field.value;
+                        const isValidRange = education?.[index]?.from && isValidRangeDate(education?.[index]?.from, field.value);
+                        return (
+                          <div>
+                            <YearMonthPicker value={field.value} label="End date" onChange={field.onChange} />
+                            {isError && (
+                              <p className="text-red-500 text-sm">End date is required if not currently attending this institution</p>
+                            )}
+                            {education?.[index]?.from && !isValidRange && (
+                              <p className="text-red-500 text-sm">End date must be after start date</p>
+                            )}
+                          </div>
+                        );
+                      }}
+                    />
+                  </div>
+                )}
+              </React.Fragment>
+            )}
+          />
           <div className="flex justify-end">
             <Button type="button" onClick={handleAddEducation} disabled={!isEducationValid}>
               + Add Education
