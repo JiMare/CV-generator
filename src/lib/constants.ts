@@ -11,3 +11,12 @@ export const linkedinLanguagesLevelsOptions = [
   'Full professional proficiency',
   'Native or bilingual proficiency',
 ];
+
+export const languageCefrOptions = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+export const languageLinkedinOptions = [
+  'Elementary proficiency',
+  'Limited working proficiency',
+  'Professional working proficiency',
+  'Full professional proficiency',
+  'Native or bilingual proficiency',
+];

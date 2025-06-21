@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { LanguageProficiency } from './LanguageProficiency';
+import { Language } from '@/modules/form/FormContext';
 
 export const LanguagesStep = () => {
   const {
@@ -24,8 +25,13 @@ export const LanguagesStep = () => {
   const languages = useWatch({ control, name: 'languages' });
 
   const handleAddLanguage = () => {
-    append({ name: '', details: '' });
+    append({ name: '', level: '' });
   };
+
+  const isLanguageValid = languages.every((lang: Language) => {
+    const { name, level } = lang;
+    return name.trim() !== '' && level.trim() !== '';
+  });
 
   return (
     <div className="flex flex-col gap-6 h-full">
@@ -77,7 +83,7 @@ export const LanguagesStep = () => {
             })}
           </div>
           <div className="flex justify-end">
-            <Button type="button" onClick={handleAddLanguage}>
+            <Button type="button" onClick={handleAddLanguage} disabled={!isLanguageValid}>
               + Add Language
             </Button>
           </div>
