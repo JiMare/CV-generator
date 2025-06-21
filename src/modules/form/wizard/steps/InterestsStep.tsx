@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Interest } from '../../FormContext';
 import { StepFieldCard } from '@/components/StepFieldCard';
+import { DragDropStepWrapper } from '../../DragDropStepWrapper';
+import React from 'react';
 
 export const InterestsStep = () => {
   const {
@@ -15,7 +17,7 @@ export const InterestsStep = () => {
     control,
     formState: { errors },
   } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: 'interests',
   });
@@ -52,9 +54,13 @@ export const InterestsStep = () => {
             <Input type="text" {...register('interestsHeading')} />
           </div>
           <div className="flex flex-col gap-4 flex-grow overflow-y-auto">
-            {fields.map((field, index) => {
-              return (
-                <StepFieldCard onRemove={() => remove(index)} key={field.id}>
+            <DragDropStepWrapper
+              droppableId="interests"
+              fields={fields}
+              move={move}
+              onRemove={remove}
+              renderItem={(field, index) => (
+                <React.Fragment key={field.id}>
                   <div>
                     <Label>Name</Label>
                     <Input
@@ -65,14 +71,13 @@ export const InterestsStep = () => {
                       className={cn('border', Boolean((errors?.interests as any)?.[index]?.name) && 'border-red-500')}
                     />
                   </div>
-
                   <div>
                     <Label>Details</Label>
                     <Textarea {...register(`interests.${index}.details`)} placeholder="Enter hobby details" />
                   </div>
-                </StepFieldCard>
-              );
-            })}
+                </React.Fragment>
+              )}
+            />
           </div>
           <div className="flex justify-end">
             <Button type="button" onClick={handleAddInterest} disabled={!isInterestsValid}>
