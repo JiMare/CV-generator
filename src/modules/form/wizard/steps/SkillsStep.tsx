@@ -86,7 +86,7 @@ export const SkillsStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/summary" toNext="/wizard/experience" />
+      <StepNavigator />
     </div>
   );
 };

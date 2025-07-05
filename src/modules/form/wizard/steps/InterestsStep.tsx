@@ -83,7 +83,7 @@ export const InterestsStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/soft-skills" />
+      <StepNavigator />
     </div>
   );
 };

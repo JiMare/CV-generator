@@ -1,13 +1,32 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useLocation } from '@tanstack/react-router';
 import { Button } from './ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { WizardOption } from '@/modules/form/wizard/options';
+import { useWizardContext } from '@/modules/form/wizard/WizardContext';
 
-type Props = {
-  toNext?: string;
-  toPrev?: string;
-};
+export const StepNavigator = () => {
+  const { pathname } = useLocation();
 
-export const StepNavigator = ({ toNext, toPrev }: Props) => {
+  const { draggableOptions } = useWizardContext();
+
+  const optionPaths = draggableOptions.map((option: WizardOption) => option.path);
+
+  const currentIndex = optionPaths.indexOf(pathname);
+  const toNext =
+    pathname === '/wizard/personal'
+      ? '/wizard/summary'
+      : pathname === '/wizard/summary'
+      ? optionPaths[0]
+      : optionPaths[currentIndex + 1] || null;
+  const toPrev =
+    pathname === '/wizard/personal'
+      ? null
+      : pathname === '/wizard/summary'
+      ? '/wizard/personal'
+      : currentIndex === 0
+      ? '/wizard/summary'
+      : optionPaths[currentIndex - 1] || null;
+
   return (
     <div className="flex mt-auto justify-between w-full">
       <div>

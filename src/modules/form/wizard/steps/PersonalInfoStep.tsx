@@ -75,7 +75,7 @@ export const PersonalInfoStep = () => {
           className={cn('border', Boolean(errors?.github) && 'border-red-500')}
         />
       </div>
-      <StepNavigator toNext="/wizard/summary" />
+      <StepNavigator />
     </div>
   );
 };

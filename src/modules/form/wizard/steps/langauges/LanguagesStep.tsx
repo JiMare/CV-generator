@@ -24,8 +24,6 @@ export const LanguagesStep = () => {
   const languagesHidden = useWatch({ name: 'languagesHidden' });
   const languages = useWatch({ control, name: 'languages' });
 
-  console.log(languages, 'langes');
-
   const handleAddLanguage = () => {
     append({ name: '', level: '' });
   };
@@ -93,7 +91,7 @@ export const LanguagesStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/projects" toNext="/wizard/soft-skills" />
+      <StepNavigator />
     </div>
   );
 };

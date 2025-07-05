@@ -1,16 +1,12 @@
 import { Outlet } from '@tanstack/react-router';
-import { WizardOption, wizardOptions } from './options';
+import { wizardOptions } from './options';
 import { DraggableTab } from '@/components/DraggableTab';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
-import { useEffect, useState } from 'react';
 import { GripVertical } from 'lucide-react';
+import { useWizardContext } from './WizardContext';
 
 export const WizardTab = () => {
-  const [draggableOptions, setDraggableOptions] = useState<WizardOption[]>(
-    localStorage.getItem('draggableWizardTabs')
-      ? JSON.parse(localStorage.getItem('draggableWizardTabs')!)
-      : wizardOptions.filter((option) => option.draggable)
-  );
+  const { draggableOptions, setDraggableOptions } = useWizardContext();
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -21,10 +17,6 @@ export const WizardTab = () => {
     updatedOptions.splice(destination.index, 0, movedOption);
     setDraggableOptions(updatedOptions);
   };
-
-  useEffect(() => {
-    localStorage.setItem('draggableWizardTabs', JSON.stringify(draggableOptions));
-  }, [draggableOptions]);
 
   return (
     <div className="flex flex-col md:flex-row gap-8">

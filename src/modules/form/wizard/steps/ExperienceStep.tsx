@@ -153,7 +153,7 @@ export const ExperienceStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/skills" toNext="/wizard/education" />
+      <StepNavigator />
     </div>
   );
 };

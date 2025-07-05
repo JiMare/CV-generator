@@ -150,7 +150,7 @@ export const EducationStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/experience" toNext="/wizard/projects" />
+      <StepNavigator />
     </div>
   );
 };

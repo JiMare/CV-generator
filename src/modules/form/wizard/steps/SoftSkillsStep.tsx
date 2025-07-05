@@ -84,7 +84,7 @@ export const SoftSkillsStep = () => {
           </div>
         </>
       )}
-      <StepNavigator toPrev="/wizard/languages" toNext="/wizard/interests" />
+      <StepNavigator />
     </div>
   );
 };
