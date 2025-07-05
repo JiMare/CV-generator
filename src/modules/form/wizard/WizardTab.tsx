@@ -1,12 +1,16 @@
 import { Outlet } from '@tanstack/react-router';
-import { wizardOptions } from './options';
+import { WizardOption, wizardOptions } from './options';
 import { DraggableTab } from '@/components/DraggableTab';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GripVertical } from 'lucide-react';
 
 export const WizardTab = () => {
-  const [draggableOptions, setDraggableOptions] = useState(wizardOptions.filter((option) => option.draggable));
+  const [draggableOptions, setDraggableOptions] = useState<WizardOption[]>(
+    localStorage.getItem('draggableWizardTabs')
+      ? JSON.parse(localStorage.getItem('draggableWizardTabs')!)
+      : wizardOptions.filter((option) => option.draggable)
+  );
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -17,6 +21,11 @@ export const WizardTab = () => {
     updatedOptions.splice(destination.index, 0, movedOption);
     setDraggableOptions(updatedOptions);
   };
+
+  useEffect(() => {
+    localStorage.setItem('draggableWizardTabs', JSON.stringify(draggableOptions));
+  }, [draggableOptions]);
+
   return (
     <div className="flex flex-col md:flex-row gap-8">
       <nav className="md:w-64 md:pr-4 space-y-2">
@@ -37,11 +46,9 @@ export const WizardTab = () => {
                           <DraggableTab
                             route={option}
                             dragElement={
-                              option.draggable ? (
-                                <div className="absolute top-3 right-3 cursor-move" {...provided.dragHandleProps}>
-                                  <GripVertical className="h-4 w-4 cursor-grab text-muted-foreground" />
-                                </div>
-                              ) : null
+                              <div className="absolute top-3 right-3 cursor-move" {...provided.dragHandleProps}>
+                                <GripVertical className="h-4 w-4 cursor-grab text-muted-foreground" />
+                              </div>
                             }
                           />
                         </div>
