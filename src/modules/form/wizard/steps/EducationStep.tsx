@@ -131,7 +131,7 @@ export const EducationStep = () => {
                             {isError && (
                               <p className="text-red-500 text-sm">End date is required if not currently attending this institution</p>
                             )}
-                            {education?.[index]?.from && !isValidRange && (
+                            {education?.[index]?.from && !isValidRange && field.value && (
                               <p className="text-red-500 text-sm">End date must be after start date</p>
                             )}
                           </div>

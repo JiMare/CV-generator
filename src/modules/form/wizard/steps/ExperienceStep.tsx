@@ -134,7 +134,7 @@ export const ExperienceStep = () => {
                           <div>
                             <YearMonthPicker value={field.value} label="End date" onChange={field.onChange} />
                             {isError && <p className="text-red-500 text-sm">End date is required if not currently working</p>}
-                            {experience?.[index]?.from && !isValidRange && (
+                            {experience?.[index]?.from && !isValidRange && field.value && (
                               <p className="text-red-500 text-sm">End date must be after start date</p>
                             )}
                           </div>
