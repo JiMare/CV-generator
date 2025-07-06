@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const isValidRangeDate = (from: string, to: string) => {
-  const [fromYear, fromMonth] = from.split('/');
-  const [toYear, toMonth] = to.split('/');
+  const [fromMonth, fromYear] = from.split('/');
+  const [toMonth, toYear] = to.split('/');
 
-  return fromYear < toYear || (fromYear === toYear && fromMonth <= toMonth);
+  return +fromYear < +toYear || (+fromYear === +toYear && +fromMonth <= +toMonth);
 };
