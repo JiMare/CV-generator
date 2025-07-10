@@ -1,11 +1,14 @@
-import { Outlet } from '@tanstack/react-router';
+import { Outlet, useRouterState } from '@tanstack/react-router';
 import { wizardOptions } from './options';
 import { DraggableTab } from '@/components/DraggableTab';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
 import { GripVertical } from 'lucide-react';
 import { useWizardContext } from './WizardContext';
+import { Loader2 } from 'lucide-react';
 
 export const WizardTab = () => {
+  const { status } = useRouterState();
+  const isPending = status === 'pending';
   const { draggableOptions, setDraggableOptions } = useWizardContext();
 
   const onDragEnd = (result: DropResult) => {
@@ -55,7 +58,13 @@ export const WizardTab = () => {
         </DragDropContext>
       </nav>
       <div className="flex-1">
-        <Outlet />
+        {isPending ? (
+          <div className="flex justify-center items-center h-full">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </div>
     </div>
   );
