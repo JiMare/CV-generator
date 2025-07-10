@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Interest } from '../../FormContext';
 import { DragDropStepWrapper } from '../../DragDropStepWrapper';
 import React from 'react';
+import { AutoResizeTextarea } from '@/components/AutorsizeTextArea';
 
 export const InterestsStep = () => {
   const {
@@ -71,7 +71,7 @@ export const InterestsStep = () => {
                 </div>
                 <div>
                   <Label>Details</Label>
-                  <Textarea {...register(`interests.${index}.details`)} placeholder="Enter hobby details" />
+                  <AutoResizeTextarea {...register(`interests.${index}.details`)} placeholder="Enter hobby details" />
                 </div>
               </React.Fragment>
             )}

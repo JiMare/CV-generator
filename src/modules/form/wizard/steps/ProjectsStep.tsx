@@ -3,13 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { urlRegex } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Project } from '../../FormContext';
 import { DragDropStepWrapper } from '../../DragDropStepWrapper';
 import React from 'react';
+import { AutoResizeTextarea } from '@/components/AutorsizeTextArea';
 
 export const ProjectsStep = () => {
   const {
@@ -76,7 +76,7 @@ export const ProjectsStep = () => {
                 </div>
                 <div>
                   <Label>Description</Label>
-                  <Textarea {...register(`projects.${index}.description`)} />
+                  <AutoResizeTextarea {...register(`projects.${index}.description`)} />
                 </div>
                 <div>
                   <Label>Repository Link</Label>
